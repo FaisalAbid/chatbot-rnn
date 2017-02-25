@@ -2,7 +2,7 @@ import codecs
 import os
 import io
 import collections
-import cPickle
+import _pickle as cPickle
 from bz2 import BZ2File
 import numpy as np
 
@@ -30,13 +30,13 @@ class TextLoader():
             # If either the vocab file or the tensor file doesn't already exist, create them.
             print("Preprocessing the following files: {}".format(self.input_files))
             vocab_counter = collections.Counter()
-            for i in xrange(self.input_file_count):
+            for i in range(self.input_file_count):
                 print("reading vocab from input file {}".format(self.input_files[i]))
                 self._augment_vocab(vocab_counter, self.input_files[i])
             print("saving vocab file")
             self._save_vocab(vocab_counter, vocab_file)
 
-            for i in xrange(self.input_file_count):
+            for i in range(self.input_file_count):
                 print("preprocessing input file {}".format(self.input_files[i]))
                 self._preprocess(self.input_files[i], self.tensor_file_template.format(i))
                 self.tensor_sizes.append(self.tensor.size)
@@ -47,9 +47,9 @@ class TextLoader():
             print ("processed input text file: {} characters loaded".format(self.tensor.size))
         else:
             # If the vocab file and sizes file already exist, load them.
-            print "loading vocab file"
+            print("loading vocab file")
             self._load_vocab(vocab_file)
-            print "loading sizes file"
+            print("loading sizes file")
             with open(sizes_file, 'rb') as f:
                 self.tensor_sizes = cPickle.load(f)
         self.tensor_batch_counts = [n / (self.batch_size * self.seq_length) for n in self.tensor_sizes]
@@ -65,7 +65,7 @@ class TextLoader():
         if not os.path.exists(sizes_file):
             print("No sizes file found. Preprocessing...")
             return True
-        for i in xrange(input_file_count):
+        for i in range(input_file_count):
             if not os.path.exists(tensor_file_template.format(i)):
                 print ("Couldn't find {}. Preprocessing...".format(tensor_file_template.format(i)))
                 return True
@@ -121,7 +121,7 @@ class TextLoader():
         # This is a lookup device to convert a character to its index number.
         self.vocab = dict(zip(self.chars, range(len(self.chars))))
         # Save the characters tuple to vocab.pkl (tiny file).
-        with open(vocab_file, 'wb') as f:
+        with open(vocab_file, 'rb') as f:
             cPickle.dump(self.chars, f)
         print("saved vocab (vocab size: {})".format(self.vocab_size))
 
@@ -239,4 +239,3 @@ class TextLoader():
         self.pointer = n
         self.current_tensor_index = i
         self._load_preprocessed(i)
-

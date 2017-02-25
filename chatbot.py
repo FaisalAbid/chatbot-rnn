@@ -5,7 +5,7 @@ import tensorflow as tf
 
 import argparse
 import os
-import cPickle
+import _pickle as cPickle
 import copy
 import sys
 import string
@@ -127,7 +127,7 @@ def initial_state_with_relevance_masking(net, sess, relevance):
 def chatbot(net, sess, chars, vocab, max_length, beam_width, relevance, temperature):
     states = initial_state_with_relevance_masking(net, sess, relevance)
     while True:
-        user_input = sanitize_text(vocab, raw_input('\n> '))
+        user_input = sanitize_text(vocab, input('\n> '))
         user_command_entered, reset, states, relevance, temperature, beam_width = process_user_command(
             user_input, states, relevance, temperature, beam_width)
         if reset: states = initial_state_with_relevance_masking(net, sess, relevance)
@@ -174,7 +174,7 @@ def process_user_command(user_input, states, relevance, temperature, beam_width)
     return user_command_entered, reset, states, relevance, temperature, beam_width
 
 def consensus_length(beam_outputs, early_term_token):
-    for l in xrange(len(beam_outputs[0])):
+    for l in range(len(beam_outputs[0])):
         if l > 0 and beam_outputs[0][l-1] == early_term_token:
             return l-1, True
         for b in beam_outputs[1:]:

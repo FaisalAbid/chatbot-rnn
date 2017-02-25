@@ -4,7 +4,7 @@ import tensorflow as tf
 import argparse
 import time
 import os
-import cPickle
+import _pickle as cPickle
 
 from utils import TextLoader
 from model import Model
@@ -100,13 +100,13 @@ def train(args):
         is_lstm = args.model == 'lstm'
         global_step = epoch_range[0] * data_loader.total_batch_count + initial_batch_step
         try:
-            for e in xrange(*epoch_range):
+            for e in range(*epoch_range):
                 # e iterates through the training epochs.
                 # Reset the model state, so it does not carry over from the end of the previous epoch.
                 state = sess.run(model.initial_state)
                 batch_range = (initial_batch_step, data_loader.total_batch_count)
                 initial_batch_step = 0
-                for b in xrange(*batch_range):
+                for b in range(*batch_range):
                     global_step += 1
                     if global_step % args.decay_steps == 0:
                         # Set the model.lr element of the model to track
