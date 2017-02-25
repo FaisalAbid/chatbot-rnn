@@ -56,10 +56,10 @@ def sample_main(args):
     # Arguments passed to sample.py direct us to a saved model.
     # Load the separate arguments by which that model was previously trained.
     # That's saved_args. Use those to load the model.
-    with open(config_path) as f:
+    with open(config_path, 'rb') as f:
         saved_args = cPickle.load(f)
     # Separately load chars and vocab from the save directory.
-    with open(vocab_path) as f:
+    with open(vocab_path, 'rb') as f:
         chars, vocab = cPickle.load(f)
     # Create the model from the saved arguments, in inference mode.
     print("Creating model...")
