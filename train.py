@@ -66,11 +66,11 @@ def train(args):
                 load_model = True
 
     # Save all arguments to config.pkl in the save directory -- NOT the data directory.
-    with open(os.path.join(args.save_dir, 'config.pkl'), 'w') as f:
+    with open(os.path.join(args.save_dir, 'config.pkl'), 'rb') as f:
         cPickle.dump(args, f)
     # Save a tuple of the characters list and the vocab dictionary to chars_vocab.pkl in
     # the save directory -- NOT the data directory.
-    with open(os.path.join(args.save_dir, 'chars_vocab.pkl'), 'w') as f:
+    with open(os.path.join(args.save_dir, 'chars_vocab.pkl'), 'rb') as f:
         cPickle.dump((data_loader.chars, data_loader.vocab), f)
 
     # Create the model!

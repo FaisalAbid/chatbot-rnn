@@ -41,7 +41,7 @@ class TextLoader():
                 self._preprocess(self.input_files[i], self.tensor_file_template.format(i))
                 self.tensor_sizes.append(self.tensor.size)
 
-            with open(sizes_file, 'wb') as f:
+            with open(sizes_file, 'rb') as f:
                 cPickle.dump(self.tensor_sizes, f)
 
             print ("processed input text file: {} characters loaded".format(self.tensor.size))
